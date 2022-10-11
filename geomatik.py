@@ -329,52 +329,7 @@ def scoring_interne(couche_shp, champ, maclause, score):
             row[0] = score
             cur1.updateRow(row)
         print ("Calcul du champ " + champ)
-        del cur1
-
-"""   
-def recherche(recherche, couche_shp, sortie_shp, pertinence):
-    '''
-    Entrée :
-    recherche : chaine de caractère qui sera rentré pour la recherche dans la BDD
-    couche_shp : Couche ou l'on recherche l'objet en question
-    pertinence : pertinence souhaité de la recherche, en pourcentage (70 % <=> 70% de chaque mot de la recherche sera retenu)
-    
-    Sortie :
-    sortie_shp : couche avec les éléments de la recherche
-    un champ sera rajouté à la sortie pour qualifier la pertinence de la recherche
-    '''
-    
-    # d'abord on copie la couche en entier, on y supprimera les éléments les moins intéressants :
-    arcpy.management.Copy(couche_shp, sortie_shp)
-    
-    # ajout du champ de pertinence
-    champ_petinence = "PERTINENCE"
-    arcpy.AddField_management(couche_shp, champ_petinence, "ENTIER", "", "", "", "", "NULLABLE", "NON_REQUIRED", "")
-    arcpy.CalculateField_management(couche_shp, champ_petinence, "0", "VB", "")
-    print ("creation du champ %s" %champ_petinence)
-    
-    # décomposition de la recherche
-    liste_mot_recherche = set(recherche.split(" "))
-    for mot in liste_mot_recherche :
-        
-        # décomposition de la recherche :
-        long_select = int((pertinence/100.0)*len(mot))
-        mot_per = mot[long_select:]
-        maclause = "typezone LIKE '%" + mot_per + "%'"
-    
-        # on regarde si la séléction renvoit quelque chose
-        arcpy.management.SelectLayerByAttribute(couche_shp, "NEW SELECTION", maclause, {invert_where_clause})
-        longueur = arcpy.management.GetCount(couche_shp)
-        if longueur > 0:
-            # Calcul de la pertinence recherche    
-            fields = [champ_petinence]
-            with arcpy.da.UpdateCursor(sortie_shp, fields, maclause) as curRECH:
-                for row in curRECH:
-                    row[0] = row[0] + 1 
-                    curRECH.updateRow(row)
-                print ("calc pertinence du mot" + mot)
-            del curRECH
-"""            
+        del cur1         
 
 def nettoyageCouche (couche_shp, champ_gardee):
     '''
